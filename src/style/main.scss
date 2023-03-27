@@ -13,3 +13,14 @@
     min-height: 100vh;
     background: linear-gradient(rgb(109, 171, 229),rgb(67, 217, 219));
 }
+
+::-webkit-scrollbar{
+    width: 0;
+}
+
+::-webkit-scrollbar-thumb{
+    background: rgba(136,136,136,0.281);
+    &:hover{
+        background: #555;
+    }
+}
