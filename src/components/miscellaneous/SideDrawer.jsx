@@ -33,9 +33,11 @@ import { useNavigate } from "react-router-dom";
 import api from "../../api/api";
 import ChatLoading from "../ChatLoading";
 import UserListItem from "../userAvatar/UserListItem";
+import { getSender } from "../../context/reducer";
 
 export default function SideDrawer() {
-  const [{ user, selectedChat, chats }, dispatch] = useStateValue();
+  const [{ user, selectedChat, chats, notification }, dispatch] =
+    useStateValue();
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -69,7 +71,6 @@ export default function SideDrawer() {
         },
       };
       const { data } = await api.get(`/user?search=${search}`, config);
-      console.log(search);
       setLoading(false);
       setSearchResult(data);
     } catch (error) {
@@ -146,9 +147,34 @@ export default function SideDrawer() {
         <div>
           <Menu>
             <MenuButton p="1">
-              <BellIcon fontSize={"2xl"} m="1" />
+              <BellIcon
+                fontSize={"2xl"}
+                m="1"
+                color={!notification ? "red" : "black"}
+              />
             </MenuButton>
-            {/* <MenuList></MenuList> */}
+            <MenuList pl={2}>
+              {!notification.length && "No new messages available"}
+              {notification?.map((not) => (
+                <MenuItem
+                  key={not._id}
+                  onClick={() => {
+                    dispatch({
+                      type: "SET_SELECTED_CHAT",
+                      selectedChat: not.chat,
+                    });
+                    dispatch({
+                      type: "FILTER_NOTIFICATION",
+                      noti: not,
+                    });
+                  }}
+                >
+                  {not.chat.isGroupChat
+                    ? `New message in ${not.chat.chatName}`
+                    : `New message from ${getSender(user, not.chat.users)}`}
+                </MenuItem>
+              ))}
+            </MenuList>
           </Menu>
           <Menu>
             <MenuButton p="3" as={Button} rightIcon={<ChevronDownIcon />}>
@@ -210,7 +236,7 @@ export default function SideDrawer() {
                 />
               ))
             )}
-          {loadingChat && <Spinner ml={"auto"} display="flex" />}
+            {loadingChat && <Spinner ml={"auto"} display="flex" />}
           </DrawerBody>
         </DrawerContent>
       </Drawer>

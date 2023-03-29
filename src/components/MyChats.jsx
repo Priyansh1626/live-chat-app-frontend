@@ -5,10 +5,13 @@ import api from "../api/api";
 import { AddIcon } from "@chakra-ui/icons";
 import ChatLoading from "./ChatLoading";
 import { getSender } from "../context/reducer";
+import GroupChat from "./miscellaneous/GroupChat";
 
-export default function MyChats() {
+export default function MyChats({ fetchAgain }) {
   const [{ user, chats, selectedChat }, dispatch] = useStateValue();
-  const [loggedUser, setLoggedUser] = useState();
+  const [loggedUser, setLoggedUser] = useState(
+    JSON.parse(localStorage.getItem("userInfo"))
+  );
   const toast = useToast();
 
   const fetchChats = async () => {
@@ -39,10 +42,7 @@ export default function MyChats() {
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
-  }, []);
-
-  console.log(selectedChat);
-  console.log(chats);
+  }, [fetchAgain]);
 
   return (
     <Box
@@ -65,13 +65,15 @@ export default function MyChats() {
         alignItems="center"
       >
         My Chats
-        <Button
-          d="flex"
-          fontSize={{ base: "17px", md: "10px", lg: "17px" }}
-          rightIcon={<AddIcon fontSize={"sm"} />}
-        >
-          New Group Chat
-        </Button>
+        <GroupChat>
+          <Button
+            d="flex"
+            fontSize={{ base: "17px", md: "10px", lg: "17px" }}
+            rightIcon={<AddIcon fontSize={"sm"} />}
+          >
+            New Group Chat
+          </Button>
+        </GroupChat>
       </Box>
       <Box
         display="flex"
