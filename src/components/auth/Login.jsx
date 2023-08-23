@@ -49,20 +49,17 @@ export default function login() {
       return;
     }
     try {
-      const config = {
-        headers: {
-          "content-type": "application/json;charset=utf-8",
-          "Access-Control-Allow-Origin":"*",
-        },
-        withCredentials: true,
-      };
       const { data } = await api.post(
         "/login",
         {
           email: user.email,
           password: user.password,
         },
-        config
+        {
+          "Content-Type": "application/json;charset=UTF-8",
+          "Access-Control-Allow-Origin": "*",
+        },
+        { withCredentials: true }
       );
       toast({
         title: "Login Successfull",

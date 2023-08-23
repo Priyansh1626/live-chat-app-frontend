@@ -116,13 +116,6 @@ export default function signup() {
     }
 
     try {
-      const config = {
-        headers: {
-          "content-type": "application/json;charset=utf-8",
-          "Access-Control-Allow-Origin":"*",
-        },
-        withCredentials: true,
-      };
       const { data } = await api.post(
         "/signup",
         {
@@ -131,7 +124,11 @@ export default function signup() {
           password: user.password,
           pic: user.pic,
         },
-        config
+        {
+          "Content-Type": "application/json;charset=UTF-8",
+          "Access-Control-Allow-Origin": "*",
+        },
+        { withCredentials: true }
       );
       toast({
         title: "Regestration Successfull",
