@@ -3,7 +3,7 @@ import {
   FormLabel,
   VStack,
   Input,
-  InputGroup, 
+  InputGroup,
   InputRightElement,
   Button,
 } from "@chakra-ui/react";
@@ -67,9 +67,11 @@ export default function signup() {
           console.log(res);
           res.json();
           console.log(res);
+          setPic(res.url.toString());
         })
         .then((data) => {
-          setPic(data.url.toString());
+          console.log(data);
+          // setPic(data.url.toString());
           setLoading(false);
         })
         .catch((err) => {
@@ -206,7 +208,7 @@ export default function signup() {
           </InputRightElement>
         </InputGroup>
       </FormControl>
-      <FormControl id="pic">
+      {/* <FormControl id="pic">
         <FormLabel>Upload your picture</FormLabel>
         <Input
           type="file"
@@ -214,7 +216,7 @@ export default function signup() {
           accept="image/*"
           onChange={(e) => postDetails(e.target.files[0])}
         />
-      </FormControl>
+      </FormControl> */}
       <Button
         colorScheme={"blue"}
         width="100%"
