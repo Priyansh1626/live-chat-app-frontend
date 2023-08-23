@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: "http://localhost:3999"
+    baseURL: "https://friendly-chat-backend.up.railway.app"
 })
 
 export default instance;
