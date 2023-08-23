@@ -51,8 +51,10 @@ export default function login() {
     try {
       const config = {
         headers: {
-          "content-type": "application/json",
+          "content-type": "application/json;charset=utf-8",
+          "Access-Control-Allow-Origin":"*",
         },
+        withCredentials: true,
       };
       const { data } = await api.post(
         "/login",
